@@ -1,0 +1,71 @@
+﻿@{
+    ViewBag.Title = "Letter Count Application";
+}
+@section featured {
+    <section class="featured">
+        <div class="content-wrapper">
+            <hgroup class="title">
+                <h1>@ViewBag.Title</h1>               
+            </hgroup>
+            <p>
+                To find the letters copy your text to the space below and click find !!
+            </p>
+        </div>
+    </section>
+}
+
+@{
+    var str = "";
+    var table = new Dictionary<char, int>();
+    if (IsPost)
+    {
+
+        // Retrieve the numbers that the user entered.
+        str = Request["txtClipBoard"];
+        var i = 0;
+        for(i = 0; i < str.Length; i++)
+        {
+            var c = str[i];
+            if(table.ContainsKey(c))
+            {
+                table[c] = table[c] + 1;
+            }
+            else{
+                table.Add(c, 1);
+            }
+            
+        }
+       
+    }
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Letter Count</title>
+   
+  </head>
+<body>
+  <p>Enter two whole numbers and then click <strong>Add</strong>.</p>
+  <form action="" method="post">
+    <p><label for="lblClipboard">Clipboard:</label>
+      <input type="text" name="txtClipBoard" />
+    </p>
+  
+    <p><input type="submit" value="Find" /></p>
+  </form>
+    <p>
+    <label for="text2" style="background-color: Yellow">Clipboard text was: @str</label>
+    </p>
+<ul>
+     @{
+        foreach(var item in table){
+            <li>'@item.Key' -  @item.Value times</li>
+        }
+      }
+
+</ul>
+ 
+</body>
+</html>
